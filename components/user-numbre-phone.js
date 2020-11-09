@@ -6,7 +6,6 @@ export const User_numbre_phone = (props) => {
 
     useEffect(() => {
         setPhone(props)
-        console.log(props.user.username)
     }, [])
 
     return (
