@@ -1,16 +1,23 @@
-import {useEffect, useState} from 'react'
-import axios from 'axios'
-import {environment} from '../environments/environments'
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {environment} from "../environments/environments";
 
-export default function New_phone_number(props){
+export default function Options_user_number(props) {
+
     const [dataFrom, setDataFrom] = useState(
         {
+            _id: '',
             username: '',
             lastname: '',
             number_phone: '',
             idUser: 2
         }
     )
+
+    useEffect(()=>{
+        setDataFrom(props.option[1])
+    }, [])
+
     const handleOnChange = (data, camp)=> {
         setDataFrom({
             ...dataFrom,
@@ -18,17 +25,27 @@ export default function New_phone_number(props){
         })
     }
 
-    const Post_new_number_phone = async ()=>{
+    const Put_new_number_phone = async ()=>{
         if (dataFrom.username !== '' && dataFrom.number_phone !== ''){
-            await axios.post(`${environment.url}phone_book`, dataFrom)
+            await axios.put(`${environment.url}phone_book/${dataFrom._id.$oid}`, dataFrom)
                 .then(() => {
-                    props.new_phone[1]();
-                    props.new_phone[0](false)
+                    props.option[2](dataFrom)
+                    props.option[0](false)
                 })
-                .catch(() => alert(`Error in: ${environment.url}phone_book. Method: POST`))
+                .catch(() => alert(`Error in: ${environment.url}phone_book/${dataFrom._id.$oid}. Method: PUT`))
         }
         else
-            props.new_phone[0](false)
+            props.option[0](false)
+    }
+
+    const Delete_new_number_phone = async () =>{
+        await axios.delete(`${environment.url}phone_book/${dataFrom._id.$oid}`)
+            .then(() => {
+                alert('Delete number phone')
+                props.option[2](null)
+                props.option[0](false)
+            })
+            .catch(() => alert(`Error in: ${environment.url}phone_book/${dataFrom._id.$oid}. Method: PUT`))
     }
     return (
         <>
@@ -40,11 +57,7 @@ export default function New_phone_number(props){
                         </svg>
                         <div className="text-center absolute w-full" style={{bottom: '-30px'}}>
                             <div className="mb-16">
-                                {
-                                    (dataFrom.username !== '' || dataFrom.lastname !== '') && (
-                                        <p className="text-gray-900 tracking-wide uppercase text-lg font-bold">{dataFrom.username}, {dataFrom.lastname}</p>
-                                    )
-                                }
+                                <p className="text-gray-900 tracking-wide uppercase text-lg font-bold">{dataFrom.username}, {dataFrom.lastname}</p>
                                 <p className="text-gray-800 text-sm">{dataFrom.number_phone}</p>
                             </div>
                         </div>
@@ -54,25 +67,28 @@ export default function New_phone_number(props){
                             <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>first name <b>(required)</b></label>
                             <input
                                 className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
-                                type='text' required onChange={(event) => handleOnChange(event.target.value, 'username')}/>
+                                type='text' value={dataFrom.username}  required onChange={(event) => handleOnChange(event.target.value, 'username')}/>
                         </div>
 
                         <div className='px-3 mb-6'>
                             <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>last name</label>
                             <input
                                 className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
-                                type='text' required onChange={(event) => handleOnChange(event.target.value, 'lastname')}/>
+                                type='text' value={dataFrom.lastname} required onChange={(event) => handleOnChange(event.target.value, 'lastname')}/>
                         </div>
 
                         <div className='px-3 mb-6'>
                             <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Number phone <b>(required)</b></label>
                             <input
                                 className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
-                                type='text' required onChange={(event) => handleOnChange(event.target.value, 'number_phone')}/>
+                                type='text' value={dataFrom.number_phone} required onChange={(event) => handleOnChange(event.target.value, 'number_phone')}/>
                         </div>
                     </div>
-                    <div className='h-12 bg-gray-400 w-full flex justify-end items-center'>
-                        <button onClick={()=>Post_new_number_phone()} className="font-mono inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mr-2">
+                    <div className='h-12 w-full flex justify-end items-center'>
+                        <button onClick={()=>Delete_new_number_phone()} className="font-mono inline-flex items-center bg-red-300 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 rounded text-base mr-2">
+                            Delete
+                        </button>
+                        <button onClick={()=>Put_new_number_phone()} className="font-mono inline-flex items-center bg-gray-300 border-0 py-1 px-3 focus:outline-none hover:bg-gray-400 rounded text-base mr-2">
                             Closed
                         </button>
                     </div>
