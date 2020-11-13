@@ -38,7 +38,7 @@ export default function Navbar({children}) {
                             <div className="hidden sm:block sm:ml-6">
                                 <div className="flex">
                                     <a href="/AddNumberPhone" className="px-3 py-2 rounded-md text-sm font-medium leading-5 text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">New number phone</a>
-                                    <a href="#" className="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Task</a>
+                                    <a href="/Task" className="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Task</a>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +75,7 @@ export default function Navbar({children}) {
                             <div>
                                 <div className="px-2 pt-2 pb-3 flex flex-col">
                                     <a href="/AddNumberPhone" className="px-3 py-2 rounded-md text-sm font-medium leading-5 text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">New number phone</a>
-                                    <a href="#" className="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Task</a>
+                                    <a href="/Task" className="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Task</a>
                                 </div>
                             </div>
                         </>
