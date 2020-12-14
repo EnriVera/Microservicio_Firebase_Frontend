@@ -64,11 +64,16 @@ export default function Task_components (props) {
             .catch(() => alert(`Error in: ${environment.url}phone_book. Method: GET`))
     }
 
+    const Get_Task = async ()=>{
+        await axios.get(`${environment.production_server_node}getTaskID?id=${task._id}`).then(({data}) => setTask(data.Task[0]))
+            .catch(() => alert(`Error in: ${environment.production_server_node}phone_book. Method: GET`))
+    }
+
     const PathNumberPhone_Task = async (phone) => {
         await axios.patch(`${environment.production_server_node}patch-numberPhone?idTask=${task._id}&idNumberPhone=${phone._id.$oid}`)
             .then(async () => {
-                await props.task[1]()
-                setUserMenu(false)
+                await Get_Task()
+                await setUserMenu(false)
             })
             .catch(() => alert('Error to the save the number phone'))
     }
@@ -88,7 +93,7 @@ export default function Task_components (props) {
                    onChange={(e) => setTask({...task, title_task: e.target.value})} value={task.title_task} onKeyPress={event => {if (event.key === 'Enter') {Title_Task()}}}/>
             <div className="ml-3 relative">
                 {
-                    (props.task[0] !== null && task.numberPhone !== []) && (
+                    (props.task[0] !== null && task.numberPhone.length === 0) && (
                         <div className='ml-1'>
                             <button onClick={() => {setUserMenu(!usermunu) }} className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-white transition duration-150 ease-in-out" id="user-menu" aria-label="User menu" aria-haspopup="true">
                                 <svg className="h-8 w-8 rounded-full border border-gray-500 border-dotted p-1 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -101,7 +106,7 @@ export default function Task_components (props) {
                 }
 
                 {
-                    (props.task[0] !== null && task.numberPhone === []) && (
+                    (props.task[0] !== null && task.numberPhone.length !== 0) && (
                         <div className='ml-1'>
                             <button onClick={() => {setUserMenu(!usermunu) }} className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-white transition duration-150 ease-in-out" id="user-menu" aria-label="User menu" aria-haspopup="true">
                                 <svg className="h-8 w-8 rounded-full border border-gray-500 border-dotted p-1 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
